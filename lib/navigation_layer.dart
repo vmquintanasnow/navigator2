@@ -14,7 +14,7 @@ class NavigationLayer extends StatelessWidget {
       valueListenable: AppNavigator().pages,
       builder: (BuildContext context, pages, _) {
         return Navigator(
-          key: UniqueKey(),
+          key: Key('navigator'),
           transitionDelegate: DefaultTransitionDelegate(),
           pages: pages,
           onPopPage: (route, result) {

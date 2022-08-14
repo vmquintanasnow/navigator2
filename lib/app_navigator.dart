@@ -17,26 +17,26 @@ class AppNavigator {
 
   //Navigation methods
   void push(
-    Widget widget, {
+    Widget child, {
     bool fullScreenDialog = false,
     required String name,
   }) {
     pages.value = List.from(pages.value)
-      ..add(BasicPage(
-        widget: widget,
+      ..add(AppPage(
+        child: child,
         fullScreenDialog: fullScreenDialog,
         name: name,
       ));
   }
 
   void pushAndReplaceAllStack(
-    Widget widget, {
+    Widget child, {
     bool fullScreenDialog = false,
     required String name,
   }) {
     pages.value = [
-      BasicPage(
-        widget: widget,
+      AppPage(
+        child: child,
         fullScreenDialog: fullScreenDialog,
         name: name,
       )
@@ -60,27 +60,27 @@ class AppNavigator {
   }
 
   void pushReplacement(
-    Widget widget, {
+    Widget child, {
     required String name,
   }) {
     pages.value = List.from(pages.value)
-      ..last = BasicPage(
-        widget: widget,
+      ..last = AppPage(
+        child: child,
         name: name,
         fullScreenDialog: false,
       );
   }
 
   void replacement(
-    Widget widget, {
+    Widget child, {
     required String name,
     required String target,
   }) {
     final targetIndex = pages.value.indexWhere((element) => element.name == target);
     if (targetIndex >= 0) {
       final List<Page> pagesCopy = List.from(pages.value);
-      pagesCopy[targetIndex] = BasicPage(
-        widget: widget,
+      pagesCopy[targetIndex] = AppPage(
+        child: child,
         name: name,
         fullScreenDialog: false,
       );
@@ -99,28 +99,14 @@ class AppNavigator {
   }
 }
 
-class AppPage extends Page {
-  final Widget child;
-
-  const AppPage({required String name, required this.child}) : super(name: name);
-
-  @override
-  Route createRoute(BuildContext context) {
-    return MaterialPageRoute(
-      settings: this,
-      builder: (context) => child,
-    );
-  }
-}
-
-class BasicPage extends Page<dynamic> {
-  BasicPage({
-    required this.widget,
+class AppPage extends Page<dynamic> {
+  AppPage({
+    required this.child,
     required String name,
     this.fullScreenDialog,
   }) : super(key: UniqueKey(), name: name);
 
-  final Widget widget;
+  final Widget child;
   final bool? fullScreenDialog;
 
   @override
@@ -128,7 +114,7 @@ class BasicPage extends Page<dynamic> {
     return MaterialPageRoute(
       settings: this,
       fullscreenDialog: fullScreenDialog ?? false,
-      builder: (context) => widget,
+      builder: (context) => child,
     );
   }
 }
